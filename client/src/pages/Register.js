@@ -1,26 +1,37 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/auth/register", form);
-      alert("Registered! Now login.");
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        email,
+        password,
+      });
+      alert("Registered successfully! Now login.");
+      navigate("/");
     } catch (err) {
-      alert(err.response.data.message || "Registration failed");
+      alert("Registration failed");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="name" placeholder="Name" onChange={handleChange} required />
-      <input name="email" placeholder="Email" onChange={handleChange} required />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+    <form onSubmit={handleRegister} style={{ padding: "2rem" }}>
+      <h2>Register for Ecodigit</h2>
+      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+      <br />
+      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <br />
+      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <br />
       <button type="submit">Register</button>
     </form>
   );

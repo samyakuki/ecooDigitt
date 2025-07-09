@@ -1,27 +1,33 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", form);
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
       localStorage.setItem("token", res.data.token);
-      alert("Logged in successfully!");
-      window.location.href = "/dashboard"; // Redirect
+      navigate("/dashboard");
     } catch (err) {
-      alert(err.response.data.message || "Login failed");
+      alert("Invalid email or password");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" onChange={handleChange} required />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+    <form onSubmit={handleLogin} style={{ padding: "2rem" }}>
+      <h2>Login to Ecodigit</h2>
+      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <br />
+      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <br />
       <button type="submit">Login</button>
     </form>
   );
