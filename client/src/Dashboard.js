@@ -54,6 +54,7 @@ const Dashboard = () => {
       <button onClick={() => submitCategory("e-waste")}>⚡ E-Waste</button>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
+      {user.isAdmin && (<p> <a href="/admin">Go to Admin Panel 🛡️</a></p>)}
     </div>
   );
 };
