@@ -4,6 +4,11 @@ const router = express.Router();
 const verifyToken = require("../middleware/authMiddleware");
 const User = require("../models/User");
 const Submission = require("../models/Submission");
+const { registerUser, loginUser } = require("../controllers/userController");
+
+// 🔐 Public routes
+router.post("/register", registerUser);
+router.post("/login", loginUser);
 
 // Get user profile
 router.get("/profile", verifyToken, async (req, res) => {

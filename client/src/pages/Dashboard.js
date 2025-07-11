@@ -5,6 +5,13 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+   
+  useEffect(() => {
+  axios.get("http://localhost:5000/api/ngo/approved").then(res => {
+    setNgos(res.data.ngos);
+  });
+}, []);
+
 
   useEffect(() => {
     const fetchProfile = async () => {

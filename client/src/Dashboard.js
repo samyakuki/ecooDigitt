@@ -55,6 +55,8 @@ const Dashboard = () => {
 
       {message && <p style={{ color: "green" }}>{message}</p>}
       {user.isAdmin && (<p> <a href="/admin">Go to Admin Panel 🛡️</a></p>)}
+      <a href="/partners">Our NGO Partners</a>
+
     </div>
   );
 };
